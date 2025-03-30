@@ -1,0 +1,38 @@
+<!--pages/checkout/checkout.wxml-->
+<view class="container">
+  <view class="header">
+    <view class="title">订单确认</view>
+  </view>
+  
+  <!-- 商品列表 -->
+  <view class="order-card">
+    <view class="card-title">商品明细</view>
+    <view class="dish-list">
+      <view class="dish-item" wx:for="{{cartItems}}" wx:key="_id">
+        <image class="dish-img" src="{{item.image}}" mode="aspectFill"></image>
+        <view class="dish-info">
+          <text class="dish-name">{{item.name}}</text>
+          <view class="dish-quantity-container">
+            <text class="dish-quantity">x{{item.quantity}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 备注 -->
+  <view class="note-card">
+    <view class="card-title">订单备注</view>
+    <view class="note-input">
+      <textarea placeholder="口味、偏好等要求..." bindinput="onNoteInput" value="{{note}}" maxlength="200"></textarea>
+      <text class="note-count">{{note.length}}/200</text>
+    </view>
+  </view>
+  
+  <!-- 底部结算栏 -->
+  <view class="checkout-bar">
+    <button class="submit-btn {{loading ? 'loading' : ''}}" bindtap="submitOrder" disabled="{{loading}}">
+      {{loading ? '提交中...' : '提交订单'}}
+    </button>
+  </view>
+</view> 

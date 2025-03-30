@@ -1,0 +1,38 @@
+<!--pages/category-manage/category-manage.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">菜品分类</text>
+  </view>
+  
+  <!-- 添加分类 -->
+  <view class="add-category-form">
+    <input class="category-input" placeholder="输入新分类名称" bindinput="onInputChange" value="{{newCategory}}" />
+    <button class="add-btn" bindtap="addCategory">添加</button>
+  </view>
+  
+  <!-- 分类列表 -->
+  <view class="category-list" wx:if="{{categories.length > 0}}">
+    <view class="category-item" wx:for="{{categories}}" wx:key="_id">
+      <view class="category-info" wx:if="{{editIndex !== index}}">
+        <text class="category-name">{{item.name}}</text>
+        <view class="category-actions">
+          <button class="edit-btn" size="mini" catchtap="editCategory" data-index="{{index}}">编辑</button>
+          <button class="delete-btn" size="mini" catchtap="deleteCategory" data-id="{{item._id}}" data-name="{{item.name}}">删除</button>
+        </view>
+      </view>
+      <view class="category-edit" wx:else>
+        <input class="edit-input" focus value="{{editValue}}" bindinput="onEditInputChange" />
+        <view class="edit-actions">
+          <button class="cancel-btn" size="mini" catchtap="cancelEdit">取消</button>
+          <button class="save-btn" size="mini" catchtap="saveEdit" data-id="{{item._id}}">保存</button>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <image class="empty-icon" src="/images/empty-data.png" mode="aspectFit"></image>
+    <text class="empty-text">暂无分类，请添加</text>
+  </view>
+</view> 

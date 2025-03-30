@@ -1,0 +1,45 @@
+<!--pages/menu-manage/menu-manage.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">菜品管理</text>
+  </view>
+  
+  <view class="search-bar">
+    <icon type="search" size="16" color="#999"></icon>
+    <input type="text" placeholder="搜索菜品" bindinput="onSearchInput" confirm-type="search" />
+    <view class="filter-btn" bindtap="toggleFilter">
+      <text>筛选</text>
+    </view>
+  </view>
+  
+  <block wx:if="{{dishes.length > 0}}">
+    <view class="dish-list">
+      <view class="dish-item" wx:for="{{dishes}}" wx:key="_id">
+        <image class="dish-img" src="{{item.image}}" mode="aspectFill"></image>
+        <view class="dish-info">
+          <text class="dish-name">{{item.name}}</text>
+          <view class="dish-meta">
+            <text class="cook-time">烹饪时间：{{item.cookTime}}分钟</text>
+            <text class="rating">评分：{{item.rating}}</text>
+          </view>
+          <view class="dish-categories">
+            <text class="category-tag" wx:for="{{item.categories}}" wx:for-item="category" wx:key="*this">{{category}}</text>
+          </view>
+          <view class="dish-actions">
+            <button class="edit-btn" size="mini" catchtap="editDish" data-id="{{item._id}}">编辑</button>
+            <button class="delete-btn" size="mini" catchtap="deleteDish" data-id="{{item._id}}">删除</button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+  
+  <view class="empty-state" wx:else>
+    <image class="empty-icon" src="/images/empty-dish.png" mode="aspectFit"></image>
+    <text class="empty-text">暂无菜品，点击下方按钮添加</text>
+  </view>
+  
+  <view class="float-btn" bindtap="goToAddDish">
+    <text>+</text>
+  </view>
+</view> 

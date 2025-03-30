@@ -1,0 +1,102 @@
+<!--pages/dish-detail/dish-detail.wxml-->
+<view class="container">
+  <!-- 返回按钮 -->
+  <view class="back-btn" bindtap="goBack">
+    <view class="back-icon"></view>
+  </view>
+  
+  <!-- 加载中显示 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+  
+  <!-- 菜品详情内容 -->
+  <block wx:if="{{!loading && dish}}">
+    <!-- 菜品图片 -->
+    <view class="dish-image" bindtap="previewImage">
+      <image src="{{dish.image}}" mode="aspectFill"></image>
+    </view>
+    
+    <!-- 菜品信息 -->
+    <view class="dish-info">
+      <view class="dish-header">
+        <text class="dish-name">{{dish.name}}</text>
+        <view class="dish-rating">
+          <text class="star">★</text>
+          <text class="rating">{{dish.rating || '5.0'}}</text>
+        </view>
+      </view>
+      
+      <view class="dish-meta">
+        <view class="meta-item">
+          <text class="meta-label">烹饪时间</text>
+          <text class="meta-value">{{dish.cookTime || '30'}}分钟</text>
+        </view>
+      </view>
+      
+      <!-- 菜品简介 -->
+      <view class="section" wx:if="{{dish.description}}">
+        <text class="section-title">菜品简介</text>
+        <text class="description">{{dish.description}}</text>
+      </view>
+      
+      <!-- 配料表 -->
+      <view class="section" wx:if="{{dish.ingredients && dish.ingredients.length > 0}}">
+        <text class="section-title">配料表</text>
+        <view class="ingredients">
+          <view class="ingredient-item" wx:for="{{dish.ingredients}}" wx:key="index">
+            <text>{{item}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 加入购物车按钮 -->
+    <view class="add-cart-wrapper">
+      <button class="add-cart-btn" bindtap="addToCart">加入购物车</button>
+    </view>
+  </block>
+  
+  <!-- 购物车图标 -->
+  <view class="floating-cart" bindtap="showCart">
+    <view class="cart-icon">
+      <view wx:if="{{isLogin && cartCount > 0}}" class="cart-badge">{{cartCount}}</view>
+    </view>
+  </view>
+
+  <!-- 购物车弹窗 -->
+  <view class="cart-popup {{showCart ? 'show' : ''}}">
+    <view class="cart-mask" bindtap="hideCart"></view>
+    <view class="cart-content">
+      <view class="cart-header">
+        <text class="cart-title">购物车</text>
+        <icon class="cart-close" type="clear" size="20" color="#999" bindtap="hideCart"></icon>
+      </view>
+      
+      <view class="cart-list">
+        <block wx:if="{{cartItems.length > 0}}">
+          <view class="cart-item" wx:for="{{cartItems}}" wx:key="_id">
+            <image class="cart-item-img" src="{{item.image}}" mode="aspectFill"></image>
+            <view class="cart-item-info">
+              <text class="cart-item-name">{{item.name}}</text>
+            </view>
+            <view class="cart-item-control">
+              <view class="minus-btn" bindtap="decreaseQuantity" data-id="{{item._id}}">-</view>
+              <text class="cart-item-quantity">{{item.quantity}}</text>
+              <view class="plus-btn" bindtap="increaseQuantity" data-id="{{item._id}}">+</view>
+            </view>
+          </view>
+        </block>
+        
+        <view class="cart-empty" wx:if="{{cartItems.length === 0}}">
+          <text>购物车是空的</text>
+        </view>
+      </view>
+      
+      <view class="cart-footer" wx:if="{{cartItems.length > 0}}">
+        <button style="width:23vw" class="clear-cart-btn" catchtap="clearCart">清空</button>
+        <button style="width:35vw" class="checkout-btn" bindtap="checkout">提交订单</button>
+      </view>
+    </view>
+  </view>
+</view> 

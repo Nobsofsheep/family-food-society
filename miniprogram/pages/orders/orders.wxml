@@ -1,0 +1,64 @@
+<!--pages/orders/orders.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">订单记录</text>
+  </view>
+  
+  <!-- 加载中显示 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 未登录状态显示 -->
+  <view class="empty-state" wx:if="{{!loading && !isLogin}}">
+    <image class="empty-icon" src="/images/empty-order.png" mode="aspectFit"></image>
+    <text class="empty-text">您尚未登录，请先登录查看订单</text>
+    <button class="go-login-btn" bindtap="goToLogin">去登录</button>
+  </view>
+  
+  <block wx:if="{{!loading && isLogin && dateKeys.length > 0}}">
+    <view class="order-list">
+      <!-- 按日期分组的订单列表 -->
+      <block wx:for="{{dateKeys}}" wx:for-item="dateKey" wx:key="*this">
+        <!-- 日期分组标题 -->
+        <view class="date-header">
+          <text>{{dateKey}}</text>
+        </view>
+        
+        <!-- 该日期下的订单列表 -->
+        <view class="order-item" wx:for="{{groupedOrders[dateKey]}}" wx:key="_id">
+          <view class="order-header">
+            <text class="order-number">用户昵称：{{item.nickname || '用户' + item.orderNumber}}</text>
+            <text class="order-status {{item.status === '已取消' ? 'canceled' : ''}}">{{item.status}}</text>
+          </view>
+          <view class="order-dishes">
+            <view class="dish-item" wx:for="{{item.dishes}}" wx:for-item="dish" wx:key="_id">
+              <image class="dish-img" src="{{dish.image}}" mode="aspectFill"></image>
+              <view class="dish-info">
+                <text class="dish-name">{{dish.name}}</text>
+                <text class="dish-quantity">x{{dish.quantity}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="order-info-row">
+            <text class="order-time">{{item.createTime}}</text>
+            <view class="order-total">
+              <text>共{{item.dishes.length}}件商品</text>
+            </view>
+          </view>
+          <view class="order-footer">
+            <view class="action-buttons">
+              <button style="width:23vw" class="delete-btn" catchtap="deleteOrder" data-index="{{index}}" data-datekey="{{dateKey}}">删除订单</button>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </block>
+  
+  <view class="empty-state" wx:if="{{!loading && isLogin && dateKeys.length === 0}}">
+    <image class="empty-icon" src="/images/empty-order.png" mode="aspectFit"></image>
+    <text class="empty-text">您还没有任何订单</text>
+    <button class="go-menu-btn" bindtap="goToMenu">去点餐</button>
+  </view>
+</view> 
