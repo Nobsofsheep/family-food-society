@@ -1,0 +1,107 @@
+<!--pages/menu/menu.wxml-->
+<view class="container">
+  <view class="menu-header">
+    <view class="tabs">
+      <view class="tab {{activeTab == 'all' ? 'active' : ''}}" data-tab="all" bindtap="changeTab">全部</view>
+      <view class="tab {{activeTab == 'new' ? 'active' : ''}}" data-tab="new" bindtap="changeTab">新品</view>
+    </view>
+  </view>
+  
+  <view class="menu-content">
+    <!-- 分类列表 -->
+    <view class="category-list">
+      <view class="category {{selectedCategory === item._id ? 'selected' : ''}}" 
+            wx:for="{{categories}}" 
+            wx:key="_id"
+            data-id="{{item._id}}"
+            bindtap="selectCategory">
+        {{item.name}}
+      </view>
+    </view>
+    
+    <!-- 菜品列表 -->
+    <view class="dish-list {{isCategoryCollapsed ? 'expanded' : ''}}">
+      <block wx:if="{{dishes.length > 0}}">
+        <view class="dish-item" wx:for="{{dishes}}" wx:key="_id" data-id="{{item._id}}" bindtap="goDishDetail">
+          <image class="dish-img" src="{{item.image}}" mode="aspectFill"></image>
+          <view class="dish-info">
+            <view class="dish-content">
+              <text class="dish-name">{{item.name}}</text>
+              <view class="dish-rating">
+                <text class="star">★</text>
+                <text class="rating">{{item.rating || '5.0'}}</text>
+                <text class="cook-time">{{item.cookTime || '30'}}分钟</text>
+              </view>
+            </view>
+            <button style="width:20vw" class="add-cart-btn" catchtap="addToCart" data-dish="{{item}}">加入购物车</button>
+          </view>
+        </view>
+        
+        <!-- 加载更多提示 -->
+        <view class="load-more" wx:if="{{loadingMore}}">
+          <text>正在加载更多...</text>
+        </view>
+        
+        <!-- 没有更多数据提示 -->
+        <view class="no-more" wx:if="{{!hasMore && dishes.length > 0}}">
+          <text>没有更多菜品了</text>
+        </view>
+      </block>
+      
+      <!-- 无数据时显示 -->
+      <view class="no-data" wx:if="{{!loading && dishes.length === 0}}">
+        <text>暂无菜品数据</text>
+      </view>
+      
+      <!-- 加载中显示 -->
+      <view class="loading" wx:if="{{loading}}">
+        <text>加载中...</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 购物车详情弹窗 -->
+  <view class="cart-popup {{showCart ? 'show' : ''}}">
+    <view class="cart-mask" bindtap="hideCartDetail"></view>
+    <view class="cart-content">
+      <view class="cart-header">
+        <text class="cart-title">购物车</text>
+        
+        <icon class="cart-close" type="clear" size="20" color="#999" bindtap="hideCartDetail"></icon>
+      </view>
+      
+      <view class="cart-list">
+        <block wx:if="{{cartItems.length > 0}}">
+          <view class="cart-item" wx:for="{{cartItems}}" wx:key="_id">
+            <image class="cart-item-img" src="{{item.image}}" mode="aspectFill"></image>
+            <view class="cart-item-info">
+              <text class="cart-item-name">{{item.name}}</text>
+            </view>
+            <view class="cart-item-control">
+              <view class="minus-btn" bindtap="decreaseQuantity" data-id="{{item._id}}">-</view>
+              <text class="cart-item-quantity">{{item.quantity}}</text>
+              <view class="plus-btn" bindtap="increaseQuantity" data-id="{{item._id}}">+</view>
+            </view>
+          </view>
+        </block>
+        
+        <view class="cart-empty" wx:if="{{cartItems.length === 0}}">
+          <text>购物车是空的</text>
+        </view>
+      </view>
+      
+      <view class="cart-footer" wx:if="{{cartItems.length > 0}}">
+        <button style="width:23vw" class="clear-cart-btn" catchtap="clearCart">清空</button>
+        <button style="width:35vw" class="checkout-btn" bindtap="checkout">提交订单</button>
+      </view>
+    </view>
+  </view>
+   
+  <!-- 购物车图标 -->
+  <view class="floating-cart" bindtap="showCartDetail">
+    <view class="cart-icon">
+      <image src="/images/icons/menu-cart-icon.png" class="cart-icon-img"></image>
+      <view wx:if="{{cartCount > 0}}" class="cart-badge">{{cartCount}}</view>
+    </view>
+  </view>
+</view>

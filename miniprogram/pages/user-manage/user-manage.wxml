@@ -1,0 +1,91 @@
+<!--pages/user-manage/user-manage.wxml-->
+<view class="container">
+  <!-- 调试信息 -->
+  <view class="debug-info" wx:if="{{users.length === 0 && !loading}}">
+    <text>当前状态：\n</text>
+    <text>用户数量：{{users.length}}\n</text>
+    <text>是否加载中：{{loading}}\n</text>
+    <text>当前页码：{{currentPage}}\n</text>
+    <text>是否有更多：{{hasMore}}\n</text>
+    <text>搜索关键词：{{searchKeyword}}\n</text>
+    <text>角色筛选：{{filterRole}}</text>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input 
+      class="search-input" 
+      placeholder="搜索用户昵称" 
+      bindinput="onSearch"
+      value="{{searchKeyword}}"
+    />
+  </view>
+
+  <!-- 角色筛选 -->
+  <view class="filter-bar">
+    <view 
+      class="filter-item {{filterRole === '' ? 'active' : ''}}" 
+      bindtap="onFilterRole" 
+      data-role=""
+    >全部</view>
+    <view 
+      class="filter-item {{filterRole === 'admin' ? 'active' : ''}}" 
+      bindtap="onFilterRole" 
+      data-role="admin"
+    >管理员</view>
+    <view 
+      class="filter-item {{filterRole === 'user' ? 'active' : ''}}" 
+      bindtap="onFilterRole" 
+      data-role="user"
+    >普通用户</view>
+  </view>
+
+  <!-- 用户列表 -->
+  <view class="user-list">
+    <view class="user-item" wx:for="{{users}}" wx:key="_id">
+      <view class="user-info">
+        <image class="avatar" src="{{item.avatar || '/images/icons/default-avatar.png'}}" mode="aspectFill"></image>
+        <view class="user-detail">
+          <view class="user-name-row">
+            <text class="nickname">{{item.nickname || '未设置昵称'}}</text>
+            <text class="role-tag {{item.role === 'admin' ? 'admin' : 'user'}}">
+              {{item.role === 'admin' ? '管理员' : '普通用户'}}
+            </text>
+          </view>
+          <text class="user-id">ID: {{item._id}}</text>
+          <text class="join-time">注册时间：{{item.createTime || '未知'}}</text>
+        </view>
+      </view>
+      
+      <view class="user-actions">
+        <button 
+          class="action-btn role-btn {{item.role === 'admin' ? 'admin' : 'user'}}"
+          bindtap="setUserRole"
+          data-user-id="{{item._id}}"
+          data-role="{{item.role}}"
+        >
+          {{item.role === 'admin' ? '降为用户' : '设为管理员'}}
+        </button>
+        <button 
+          class="action-btn status-btn {{item.status === 'disabled' ? 'disabled' : ''}}"
+          bindtap="toggleUserStatus"
+          data-user-id="{{item._id}}"
+          data-status="{{item.status || 'normal'}}"
+        >
+          {{item.status === 'disabled' ? '启用' : '禁用'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-more" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+  <view class="no-more" wx:if="{{!hasMore && users.length > 0}}">
+    <text>没有更多了</text>
+  </view>
+  <view class="empty" wx:if="{{!loading && users.length === 0}}">
+    <text>暂无用户数据</text>
+  </view>
+</view> 

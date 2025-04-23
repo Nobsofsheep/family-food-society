@@ -1,0 +1,91 @@
+<view class="container">
+  <view class="header">
+    <view class="title">今日推荐管理</view>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input 
+      class="search-input" 
+      placeholder="搜索菜品名称" 
+      bindinput="onSearchInput"
+      value="{{searchValue}}"
+    />
+  </view>
+
+  <!-- 菜品列表 -->
+  <view class="dish-list">
+    <block wx:if="{{dishes.length > 0}}">
+      <!-- 推荐菜品 -->
+      <view class="section">
+        <view class="section-title">推荐菜品</view>
+        <view class="section-content">
+          <block wx:for="{{dishes}}" wx:key="_id">
+            <view class="dish-item" wx:if="{{item.isRecommend}}">
+              <view class="dish-info">
+                <image class="dish-image" src="{{item.image || '/images/default-dish.png'}}" mode="aspectFill" />
+                <view class="dish-detail">
+                  <text class="dish-name">{{item.name}}</text>
+                  <text class="order-time">等待时间：{{item.waitTime || 0}}分钟</text>
+                  <view class="tags">
+                    <text class="tag feature" wx:if="{{item.isRecommend}}">今日推荐</text>
+                    <text class="tag top" wx:if="{{item.isTop}}">置顶菜品</text>
+                  </view>
+                </view>
+              </view>
+              <button 
+                style="width:30vw"
+                class="action-btn active"
+                bindtap="toggleRecommendDish"
+                data-id="{{item._id}}"
+                data-isrecommend="{{item.isRecommend}}"
+                data-cantop="{{!item.canBeRecommended}}"
+              >
+                取消推荐
+              </button>
+            </view>
+          </block>
+        </view>
+      </view>
+
+      <!-- 其他菜品 -->
+      <view class="section">
+        <view class="section-title">其他菜品</view>
+        <view class="section-content">
+          <block wx:for="{{dishes}}" wx:key="_id">
+            <view class="dish-item" wx:if="{{!item.isRecommend}}">
+              <view class="dish-info">
+                <image class="dish-image" src="{{item.image || '/images/default-dish.png'}}" mode="aspectFill" />
+                <view class="dish-detail">
+                  <text class="dish-name">{{item.name}}</text>
+                  <text class="order-time">等待时间：{{item.waitTime || 0}}分钟</text>
+                  <view class="tags">
+                    <text class="tag top" wx:if="{{item.isTop}}">置顶菜品</text>
+                  </view>
+                </view>
+              </view>
+              <button 
+                style="width:30vw"
+                class="action-btn {{!item.canBeRecommended ? 'disabled' : ''}}"
+                bindtap="toggleRecommendDish"
+                data-id="{{item._id}}"
+                data-isrecommend="{{item.isRecommend}}"
+                data-cantop="{{!item.canBeRecommended}}"
+              >
+                {{item.canBeRecommended ? '设为推荐' : '不可推荐'}}
+              </button>
+            </view>
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+  <view class="empty" wx:if="{{!loading && dishes.length === 0}}">
+    <text>暂无菜品数据</text>
+  </view>
+</view> 

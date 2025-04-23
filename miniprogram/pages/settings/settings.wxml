@@ -1,0 +1,116 @@
+<!--pages/settings/settings.wxml-->
+<view class="container">
+  <!-- 用户资料卡片 -->
+  <view class="user-card">
+    <block wx:if="{{!isLogin}}">
+      <view class="login-prompt">
+        <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image class="default-avatar" src="{{avatarUrl || '/images/icons/default-avatar.png'}}" mode="aspectFill"></image>
+        </button>
+        <button style="width:36vw" class="login-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">登录</button>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="user-info">
+        <image class="avatar" src="{{userInfo.avatar || '/images/icons/default-avatar.png'}}" mode="aspectFill"></image>
+        <view class="user-detail">
+          <text class="nickname">{{userInfo.nickname}}</text>
+          <text class="role-tag {{isAdmin ? 'admin' : 'user'}}">{{isAdmin ? '管理员' : '普通用户'}}</text>
+          <text class="phone-number" wx:if="{{userInfo.phoneNumber}}">{{userInfo.phoneNumber}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+  
+  <!-- 基础信息部分 - 所有用户可见 -->
+  <view class="section">
+    <view class="section-title">基础信息</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="goToAccount">
+        <text>个人信息</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 菜单管理部分 - 仅管理员可见 -->
+  <view class="section" wx:if="{{isLogin && isAdmin}}">
+    <view class="section-title">菜单管理</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="goToMenuManage">
+        <text>菜品管理</text>
+        <text class="arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="goToCategoryManage">
+        <text>菜品分类</text>
+        <text class="arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="goToNewDishManage">
+        <text>新品管理</text>
+        <text class="arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="goToFeatureDishManage">
+        <text>今日特色</text>
+        <text class="arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="goToRecommendDishManage">
+        <text>今日推荐</text>
+        <text class="arrow">></text>
+      </view>
+      <view class="menu-item switch-item">
+        <text>自动设置今日特色</text>
+        <switch checked="{{autoFeatureDish}}" bindchange="toggleAutoFeatureDish" color="#ff7e43"/>
+      </view>
+      <view class="menu-item switch-item">
+        <text>自动设置今日推荐</text>
+        <switch checked="{{autoRecommendDish}}" bindchange="toggleAutoRecommendDish" color="#ff7e43"/>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 管理员专属：用户管理 -->
+  <view class="section" wx:if="{{isLogin && isAdmin}}">
+    <view class="section-title">用户管理</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="goToUserManage">
+        <text>用户列表</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 关于部分 - 所有用户可见 -->
+  <view class="section">
+    <view class="section-title">关于</view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="showAbout">
+        <text>关于我们</text>
+        <text class="arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="contactCustomerService">
+        <text>联系客服</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 退出登录按钮 -->
+  <view class="logout-section" wx:if="{{isLogin}}">
+    <button class="logout-btn" bindtap="logout">退出登录</button>
+  </view>
+  
+  <!-- 获取昵称弹窗 -->
+  <view class="nickname-dialog" wx:if="{{showNicknameDialog}}">
+    <view class="dialog-mask"></view>
+    <view class="dialog-container">
+      <view class="dialog-title">请设置昵称</view>
+      <view class="dialog-content">
+        <input class="nickname-input" placeholder="请输入您的昵称" bindinput="onNicknameInput"></input>
+      </view>
+      <view class="dialog-footer">
+        <button class="cancel-btn" bindtap="cancelLogin">取消</button>
+        <button class="confirm-btn" bindtap="completeLogin">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,30 @@
+.nickname-input {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 20rpx 30rpx;
+  border-radius: 8rpx;
+}
+
+.input {
+  flex: 1;
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.wx-btn {
+  margin-left: 20rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 30rpx;
+  font-size: 28rpx;
+  color: #FF6B35;
+  background: #fff;
+  border: 1rpx solid #FF6B35;
+  border-radius: 40rpx;
+}
+
+.wx-btn::after {
+  border: none;
+} 

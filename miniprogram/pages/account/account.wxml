@@ -1,0 +1,53 @@
+<!--pages/account/account.wxml-->
+<view class="container">
+  <!-- 页面头部 -->
+  <view class="header">
+    <text class="title">个人信息</text>
+  </view>
+
+  <!-- 用户信息卡片 -->
+  <view class="info-card">
+    <!-- 头像部分 -->
+    <view class="avatar-section">
+      <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{userInfo.avatar || '/images/icons/default-avatar.png'}}" mode="aspectFill"></image>
+        <view class="avatar-edit-hint">点击更换头像</view>
+      </button>
+    </view>
+
+    <!-- 基本信息部分 -->
+    <view class="info-section">
+      <!-- 昵称输入框 -->
+      <view class="info-item">
+        <text class="info-label">昵称</text>
+        <input class="info-input"
+               value="{{nickname}}"
+               placeholder="请输入昵称"
+               bindinput="onNicknameInput"/>
+      </view>
+
+      <!-- 用户角色 -->
+      <view class="info-item">
+        <text class="info-label">用户角色</text>
+        <text class="role-tag {{isAdmin ? 'admin' : 'user'}}">
+          {{isAdmin ? '管理员' : '普通用户'}}
+        </text>
+      </view>
+
+      <!-- 注册时间 -->
+      <view class="info-item">
+        <text class="info-label">注册时间</text>
+        <text class="info-value">{{formattedTime}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="button-section">
+    <button class="save-btn {{isModified ? 'active' : ''}}" 
+            bindtap="saveUserInfo" 
+            disabled="{{!isModified}}">
+      保存修改
+    </button>
+  </view>
+</view> 

@@ -1,0 +1,82 @@
+<!--pages/new-dish-manage/new-dish-manage.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">新品管理</text>
+  </view>
+  
+  <view class="search-bar">
+    <icon type="search" size="16" color="#999"></icon>
+    <input type="text" placeholder="搜索菜品" bindinput="onSearchInput" confirm-type="search" />
+  </view>
+  
+  <!-- 新品列表 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">当前新品</text>
+      <text class="section-count">{{newDishes.length}}个</text>
+    </view>
+    
+    <block wx:if="{{newDishes.length > 0}}">
+      <view class="dish-list">
+        <view class="dish-item" wx:for="{{newDishes}}" wx:key="_id">
+          <image class="dish-img" src="{{item.image}}" mode="aspectFill"></image>
+          <view class="dish-info">
+            <text class="dish-name">{{item.name}}</text>
+            <view class="dish-meta">
+              <text class="cook-time">烹饪时间：{{item.cookTime}}分钟</text>
+              <text class="dish-tag new">新品</text>
+            </view>
+            <view class="dish-actions">
+              <button class="action-btn edit" size="mini" catchtap="editDish" data-id="{{item._id}}">编辑</button>
+              <button class="action-btn cancel" size="mini" catchtap="toggleNewDish" data-id="{{item._id}}" data-isnew="{{item.isNew}}">取消新品</button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    
+    <view class="no-data" wx:if="{{!loading && newDishes.length === 0}}">
+      <text>暂无新品菜品</text>
+    </view>
+  </view>
+  
+  <!-- 全部菜品 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">全部菜品</text>
+      <text class="section-count">{{dishes.length}}个</text>
+    </view>
+    
+    <block wx:if="{{dishes.length > 0}}">
+      <view class="dish-list">
+        <view class="dish-item" wx:for="{{dishes}}" wx:key="_id" wx:if="{{!item.isNew}}">
+          <image class="dish-img" src="{{item.image}}" mode="aspectFill"></image>
+          <view class="dish-info">
+            <text class="dish-name">{{item.name}}</text>
+            <view class="dish-meta">
+              <text class="cook-time">烹饪时间：{{item.cookTime}}分钟</text>
+            </view>
+            <view class="dish-actions">
+              <button class="action-btn edit" size="mini" catchtap="editDish" data-id="{{item._id}}">编辑</button>
+              <button class="action-btn set-new" size="mini" catchtap="toggleNewDish" data-id="{{item._id}}" data-isnew="{{item.isNew}}">设为新品</button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    
+    <view class="no-data" wx:if="{{!loading && dishes.length === 0}}">
+      <text>暂无菜品数据</text>
+    </view>
+  </view>
+  
+  <!-- 加载中显示 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+  
+  <!-- 新增按钮 -->
+  <view class="float-btn" bindtap="goToAddDish">
+    <text>+</text>
+  </view>
+</view> 

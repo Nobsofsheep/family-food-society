@@ -1,0 +1,82 @@
+<!--pages/add-dish/add-dish.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">{{isEdit ? '编辑菜品' : '添加菜品'}}</text>
+  </view>
+  
+  <view class="form-wrapper">
+    <form bindsubmit="submitForm">
+      <!-- 基本信息 -->
+      <view class="form-section">
+        <view class="section-title">基本信息</view>
+        
+        <view class="form-item">
+          <text class="form-label">菜品名称</text>
+          <input class="form-input" name="name" placeholder="请输入菜品名称" value="{{dishData.name}}" />
+        </view>
+        
+        <view class="form-item">
+          <text class="form-label">烹饪时间（分钟）</text>
+          <input class="form-input" name="cookTime" type="number" placeholder="请输入烹饪时间" value="{{dishData.cookTime}}" />
+        </view>
+        
+        <view class="form-item">
+          <text class="form-label">菜品分类</text>
+          <picker mode="selector" range="{{categoryNames}}" value="{{selectedCategoryIndex}}" bindchange="onCategoryChange">
+            <view class="picker-content">
+              <text wx:if="{{categories.length > 0}}">{{categoryNames[selectedCategoryIndex]}}</text>
+              <text class="placeholder" wx:else>请选择分类</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+      
+      <!-- 上传图片 -->
+      <view class="form-section">
+        <view class="section-title">菜品图片</view>
+        
+        <view class="upload-container">
+          <view class="upload-preview" wx:if="{{tempImagePath || dishData.image}}">
+            <image src="{{tempImagePath || dishData.image}}" mode="aspectFill"></image>
+            <view class="remove-btn" bindtap="removeImage">×</view>
+          </view>
+          <view class="upload-btn" bindtap="chooseImage" wx:else>
+            <view class="upload-icon">+</view>
+            <text>选择图片</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 菜品简介 -->
+      <view class="form-section">
+        <view class="section-title">菜品简介</view>
+        
+        <view class="form-item">
+          <textarea class="form-textarea" name="description" placeholder="请输入菜品简介" value="{{dishData.description}}"></textarea>
+        </view>
+      </view>
+      
+      <!-- 配料表 -->
+      <view class="form-section">
+        <view class="section-title">配料表 <text class="optional-text">（可选）</text></view>
+        
+        <view class="form-item" wx:for="{{ingredients}}" wx:key="index">
+          <view class="ingredient-row">
+            <input class="ingredient-input" value="{{item}}" data-index="{{index}}" bindinput="updateIngredient" placeholder="请输入配料" />
+            <view class="remove-ingredient-btn" bindtap="removeIngredient" data-index="{{index}}">×</view>
+          </view>
+        </view>
+        
+        <view class="add-ingredient-btn" bindtap="addIngredient">
+          <text>+ 添加配料</text>
+        </view>
+      </view>
+      
+      <!-- 提交按钮 -->
+      <view class="form-actions">
+        <button class="cancel-btn" bindtap="cancelEdit">取消</button>
+        <button class="submit-btn" form-type="submit">保存</button>
+      </view>
+    </form>
+  </view>
+</view> 

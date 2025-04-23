@@ -1,0 +1,176 @@
+/* pages/recommend-dish-manage/recommend-dish-manage.wxss */
+.container {
+  padding: 30rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 搜索栏 */
+.search-bar {
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 8rpx;
+  margin-bottom: 20rpx;
+}
+
+.search-input {
+  width: 100%;
+  height: 64rpx;
+  padding: 0 20rpx;
+  background-color: #f5f5f5;
+  border-radius: 32rpx;
+  font-size: 28rpx;
+}
+
+/* 菜品列表 */
+.dish-list {
+  background: #fff;
+  border-radius: 8rpx;
+}
+
+/* 分类区域 */
+.section {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  padding: 20rpx;
+  position: relative;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8rpx;
+  height: 32rpx;
+  background-color: #07c160;
+  border-radius: 4rpx;
+}
+
+.section-content {
+  padding: 0 20rpx;
+}
+
+/* 菜品项 */
+.dish-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.dish-item:last-child {
+  border-bottom: none;
+}
+
+.dish-item.section-divider {
+  border-top: 8rpx solid #f5f5f5;
+}
+
+.dish-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.dish-image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 8rpx;
+  margin-right: 20rpx;
+}
+
+.dish-detail {
+  flex: 1;
+}
+
+.dish-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.order-time {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+}
+
+.tags {
+  margin-top: 8rpx;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  border-radius: 4rpx;
+  font-size: 22rpx;
+  margin-right: 8rpx;
+}
+
+.tag.feature {
+  background-color: #fef0f0;
+  color: #f56c6c;
+}
+
+.tag.top {
+  background-color: #ecf5ff;
+  color: #409eff;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.action-btn {
+  min-width: 1rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  padding: 0 20rpx;
+  font-size: 24rpx;
+  border-radius: 28rpx;
+  background: #c0bebe;
+  color: #000000;
+  margin: 0;
+}
+
+.action-btn.active {
+  background: #07c160;
+  color: #ffffff;
+}
+
+.action-btn.disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 加载状态 */
+.loading, .empty {
+  text-align: center;
+  padding: 40rpx;
+  color: #999;
+  font-size: 28rpx;
+} 

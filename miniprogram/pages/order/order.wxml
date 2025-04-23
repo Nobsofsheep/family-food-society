@@ -1,0 +1,30 @@
+<view class="container">
+  <view class="order-list">
+    <block wx:if="{{orders.length > 0}}">
+      <view class="order-item" wx:for="{{orders}}" wx:key="_id">
+        <view class="order-header">
+          <text class="order-time">{{item.createTime}}</text>
+          <text class="order-status">{{item.status}}</text>
+        </view>
+        <view class="order-content">
+          <view class="dish-list">
+            <view class="dish-item" wx:for="{{item.dishes}}" wx:key="id">
+              <text class="dish-name">{{item.name}}</text>
+              <text class="dish-count">x{{item.count}}</text>
+            </view>
+          </view>
+          <view class="order-total">
+            <text>总计：</text>
+            <text class="total-price">¥{{item.totalPrice}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view class="no-data" wx:else>
+      <text>暂无订单记录</text>
+    </view>
+  </view>
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view> 
