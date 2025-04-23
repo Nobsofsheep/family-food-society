@@ -1,0 +1,10 @@
+{
+  "name": "family-menu",
+  "version": "8.6.2",
+  "description": "佳属食社",
+  "scripts": {
+    "deploy:functions": "wx deploy:functions"
+  },
+  "author": "",
+  "license": "ISC"
+} 
